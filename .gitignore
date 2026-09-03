@@ -1,0 +1,5 @@
+# test kosumunda uretilen gecici dosyalar
+tools/test/node_modules/
+tools/test/scripts/
+__pycache__/
+*.pyc

@@ -1,0 +1,4 @@
+pack.name=Mob Üretici - Kaynak Paketi
+pack.description=Mob Üretici Asası dokusu.
+item.mobgen:mob_wand=Mob Üretici Asası
+item.mobgen:mob_wand.name=Mob Üretici Asası

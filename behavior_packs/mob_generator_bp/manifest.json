@@ -1,0 +1,45 @@
+{
+  "format_version": 2,
+  "header": {
+    "name": "Mob Uretici - Davranis Paketi",
+    "description": "Istedigin mobu, istedigin esya, buyu ve seviyeyle olustur. Asayi kullanarak menuyu ac.",
+    "uuid": "8ad79590-4cb6-4c1b-a5e0-2f169c16d9eb",
+    "version": [1, 0, 0],
+    "min_engine_version": [1, 21, 80]
+  },
+  "modules": [
+    {
+      "type": "data",
+      "uuid": "1d414163-8ae1-44bf-bc50-2d6153a83253",
+      "version": [1, 0, 0]
+    },
+    {
+      "type": "script",
+      "language": "javascript",
+      "uuid": "ab5f9760-8460-4633-ae3e-320ef0749a9d",
+      "version": [1, 0, 0],
+      "entry": "scripts/main.js"
+    }
+  ],
+  "dependencies": [
+    {
+      "uuid": "634d8e2f-db83-4cc5-8ad5-f584d15586c8",
+      "version": [1, 0, 0]
+    },
+    {
+      "module_name": "@minecraft/server",
+      "version": "2.0.0"
+    },
+    {
+      "module_name": "@minecraft/server-ui",
+      "version": "2.0.0"
+    }
+  ],
+  "metadata": {
+    "authors": ["Mob Uretici"],
+    "license": "MIT",
+    "generated_with": {
+      "claude_code": ["1.0.0"]
+    }
+  }
+}
