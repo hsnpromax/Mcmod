@@ -1,5 +1,9 @@
-"""
-Bedrock dunyasindaki oyuncunun envanterine tam buyulu netherite set + araclar ekler.
+"""Bedrock dunyasindaki oyuncunun envanterine tam buyulu netherite set + araclar ekler.
+
+Kullanim:
+    python give_items.py <db_yolu> [player_server_anahtari]
+
+Anahtar verilmezse veritabanindaki tek `player_server_*` kaydi kullanilir.
 """
 import sys
 from leveldb import LevelDB
@@ -8,8 +12,6 @@ from amulet_nbt import (
     CompoundTag, ListTag, ByteTag, ShortTag, StringTag, IntTag,
 )
 
-DB_PATH = "world/world/db"
-PLAYER_KEY = b"player_server_1613dc63-e694-42aa-849c-ad239f71c0f1"
 LVL = 255
 
 # --- Bedrock enchantment ID tablosu (Enchantment::Type) ---
@@ -74,13 +76,26 @@ def make_item(name, enchants, slot):
     })
 
 
+def find_player_key(db):
+    keys = [k for k in db.keys() if k.startswith(b"player_server_")]
+    if len(keys) != 1:
+        raise SystemExit(
+            f"Tek bir oyuncu kaydi bekleniyordu, {len(keys)} bulundu: "
+            + ", ".join(k.decode() for k in keys)
+        )
+    return keys[0]
+
+
 def main():
-    db = LevelDB(DB_PATH, create_if_missing=False)
-    raw = db.get(PLAYER_KEY)
+    db_path = sys.argv[1] if len(sys.argv) > 1 else "world/world/db"
+    db = LevelDB(db_path, create_if_missing=False)
+    key = sys.argv[2].encode() if len(sys.argv) > 2 else find_player_key(db)
+    print("oyuncu:", key.decode())
+
+    raw = db.get(key)
     named = load(raw, compressed=False, little_endian=True,
                  string_decoder=utf8_escape_decoder)
-    player = named.compound
-    inv = player["Inventory"]
+    inv = named.compound["Inventory"]
 
     for slot, (name, enchants) in enumerate(ITEMS):
         inv[slot] = make_item(name, enchants, slot)
@@ -88,7 +103,7 @@ def main():
 
     out = named.to_nbt(compressed=False, little_endian=True,
                        string_encoder=utf8_escape_encoder)
-    db.put(PLAYER_KEY, out)
+    db.put(key, out)
     db.close()
     print(f"\nYazildi: {len(raw)} -> {len(out)} bayt")
 

@@ -5,16 +5,18 @@ Minecraft Bedrock (`1.26.45`) dünyasındaki oyuncunun envanterine, tüm büyül
 
 ## Hedef oyuncu
 
-Dünyada tek bir oyuncu kaydı var:
+Dünyada tek bir oyuncu kaydı var; iki ayrı giriş eşlemesi de aynı kayda
+işaret ediyor:
 
 | Anahtar | Değer |
 | --- | --- |
-| LevelDB anahtarı | `player_server_1613dc63-e694-42aa-849c-ad239f71c0f1` |
+| Oyuncu verisi | `player_server_c810e757-f746-41d8-80d5-df92c87197e1` |
 | MSA eşlemesi | `player_22b76885-4006-3286-927f-f114fc34b92d` |
+| Self-signed eşleme | `player_bd6230bd-fa51-308d-9756-4a201c270c70` |
 
-Bedrock dünya dosyaları oyuncu adını (`DreadFlipper308`) saklamaz; scoreboard da
-boş olduğu için ad ile eşleme yapılamıyor. Dünyadaki tek oyuncu kaydı bu
-olduğundan itemler bu kayda yazıldı. Envanter işlemden önce tamamen boştu.
+Bedrock dünya dosyaları oyuncu adını (`DreadFlipper308`) saklamaz, bu yüzden
+ad ile eşleme yapılamıyor. Dünyadaki tek oyuncu kaydı bu olduğundan itemler
+buraya yazıldı. Envanter işlemden önce tamamen boştu.
 
 ## Eklenen itemler
 
@@ -72,8 +74,9 @@ Toplam 54 büyü, hepsi seviye 255.
 python3 -m venv venv
 ./venv/bin/pip install amulet-leveldb amulet-nbt
 
-./venv/bin/python tools/give_items.py        # itemleri yazar
-./venv/bin/python tools/verify_inventory.py  # sonucu doğrular
+./venv/bin/python tools/give_items.py world/db        # itemleri yazar
+./venv/bin/python tools/verify_inventory.py world/db  # sonucu doğrular
 ```
 
-Her iki script de dünyayı `world/world/db` yolunda arar.
+Her iki script de `db` yolunu argüman olarak alır; oyuncu anahtarı verilmezse
+veritabanındaki tek `player_server_*` kaydını kendisi bulur.
